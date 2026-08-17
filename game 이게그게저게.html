@@ -1,0 +1,1070 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nhà Thám Hiểm Phòng Học - 교실 탐험가</title>
+    <!-- Google Fonts: Noto Sans KR (Clear for kids) + Quicksand -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500;700;800;900&family=Quicksand:wght@600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        pastelMint: '#E8F5E9',
+                        pastelMintDark: '#A5D6A7',
+                        pastelPink: '#FCE4EC',
+                        pastelPinkDark: '#F48FB1',
+                        pastelYellow: '#FFFDE7',
+                        pastelYellowDark: '#FFF59D',
+                        pastelBlue: '#E1F5FE',
+                        pastelBlueDark: '#81D4FA',
+                        pastelPurple: '#F3E5F5',
+                        pastelOrange: '#FFE0B2',
+                        brandGreen: '#4CAF50',
+                        brandBlue: '#0288D1',
+                        brandPink: '#EC407A'
+                    },
+                    fontFamily: {
+                        korean: ['"Noto Sans KR"', 'sans-serif'],
+                        viet: ['Quicksand', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: linear-gradient(135deg, #E8F5E9 0%, #E1F5FE 50%, #FCE4EC 100%);
+            min-height: 100vh;
+            user-select: none;
+            overflow-x: hidden;
+        }
+
+        .kr-text {
+            font-family: 'Noto Sans KR', sans-serif;
+            letter-spacing: 0.03em;
+            line-height: 1.5;
+        }
+
+        /* Glassmorphism Card */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.88);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 2px solid rgba(255, 255, 255, 0.95);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.06), 0 8px 16px rgba(165, 214, 167, 0.15);
+            border-radius: 30px;
+        }
+
+        /* Soft UI Button Style */
+        .btn-soft {
+            border-radius: 30px;
+            transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06), 0 4px 8px rgba(0, 0, 0, 0.04);
+        }
+
+        .btn-soft:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 14px 28px rgba(0, 0, 0, 0.12);
+        }
+
+        .btn-soft:active {
+            transform: translateY(1px) scale(0.98);
+        }
+
+        /* Floating Clouds Animation */
+        @keyframes floatCloud {
+            0% { transform: translateX(-10%); }
+            50% { transform: translateX(10%); }
+            100% { transform: translateX(-10%); }
+        }
+
+        .floating-cloud-1 {
+            animation: floatCloud 22s ease-in-out infinite;
+        }
+
+        .floating-cloud-2 {
+            animation: floatCloud 28s ease-in-out infinite reverse;
+        }
+
+        /* Pop in effect */
+        @keyframes popIn {
+            0% { transform: scale(0.85); opacity: 0; }
+            70% { transform: scale(1.03); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .animate-pop {
+            animation: popIn 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        /* Distance Arrow animation */
+        @keyframes arrowPulse {
+            0%, 100% { transform: scaleX(1); opacity: 0.85; }
+            50% { transform: scaleX(1.03); opacity: 1; }
+        }
+
+        .arrow-animated {
+            animation: arrowPulse 1.5s ease-in-out infinite;
+            transform-origin: center;
+        }
+
+        /* Option Button States */
+        .option-btn {
+            background: #ffffff;
+            border: 2.5px solid #E0E0E0;
+            color: #2D3748;
+            border-radius: 20px;
+            font-size: 1.05rem;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+        }
+
+        .option-btn:hover {
+            border-color: #4FC3F7;
+            background: #F4FBFF;
+            transform: translateY(-2px);
+        }
+
+        .option-btn.correct {
+            background-color: #E8F5E9 !important;
+            border-color: #4CAF50 !important;
+            color: #1B5E20 !important;
+            box-shadow: 0 0 20px rgba(76, 175, 80, 0.3);
+        }
+
+        .option-btn.incorrect {
+            background-color: #FFEBEE !important;
+            border-color: #EF5350 !important;
+            color: #B71C1C !important;
+            box-shadow: 0 0 20px rgba(239, 83, 80, 0.3);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(255,255,255,0.5);
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #A5D6A7;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen justify-between relative overflow-x-hidden">
+
+    <!-- Background Animated Clouds -->
+    <div class="fixed top-6 left-10 text-white/40 pointer-events-none floating-cloud-1 z-0">
+        <svg width="180" height="90" viewBox="0 0 24 24" fill="white" opacity="0.6">
+            <path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96z"/>
+        </svg>
+    </div>
+    <div class="fixed top-20 right-12 text-white/40 pointer-events-none floating-cloud-2 z-0">
+        <svg width="220" height="110" viewBox="0 0 24 24" fill="white" opacity="0.5">
+            <path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96z"/>
+        </svg>
+    </div>
+
+    <!-- MAIN APP CONTAINER -->
+    <div class="container mx-auto px-3 py-2 max-w-3xl relative z-10 my-auto">
+
+        <!-- ================= MÀN HÌNH 1: START SCREEN ================= -->
+        <div id="startScreen" class="glass-card p-6 md:p-8 text-center animate-pop max-w-xl mx-auto">
+            <div class="w-20 h-20 mx-auto bg-gradient-to-tr from-pastelMintDark to-pastelBlueDark rounded-full p-1 shadow-lg mb-3 flex items-center justify-center">
+                <div class="w-full h-full bg-white rounded-full flex items-center justify-center">
+                    <span class="text-4xl">🧭</span>
+                </div>
+            </div>
+
+            <h1 class="text-2xl md:text-3xl font-bold text-gray-800 mb-1">
+                <span class="kr-text text-3xl md:text-4xl text-emerald-600 block mb-1 font-black">교실 탐험가</span>
+                <span class="font-bold text-gray-700">Nhà Thám Hiểm Phòng Học</span>
+            </h1>
+            <p class="text-gray-600 text-xs md:text-sm mb-4">
+                Cùng khám phá các đồ vật trong lớp học với ngữ pháp chỉ định <span class="font-bold text-pink-500 kr-text">이게 / 그게 / 저게</span> nhé!
+            </p>
+
+            <!-- Name Input Form -->
+            <div class="space-y-3 max-w-sm mx-auto mb-6">
+                <div class="relative">
+                    <i class="fa-solid fa-user-astronaut absolute left-4 top-1/2 transform -translate-y-1/2 text-pink-400 text-lg"></i>
+                    <input type="text" id="playerNameInput" placeholder="Nhập tên nhà thám hiểm của bạn..." 
+                        class="w-full pl-11 pr-4 py-3 rounded-3xl bg-white/90 border-2 border-pastelPinkDark text-gray-800 text-base font-semibold focus:outline-none focus:ring-4 focus:ring-pastelPink transition shadow-inner">
+                </div>
+                <div id="nameError" class="text-red-500 text-xs hidden font-semibold">
+                    <i class="fa-solid fa-circle-exclamation mr-1"></i> Vui lòng nhập tên của bạn trước khi bắt đầu!
+                </div>
+            </div>
+
+            <!-- Start Button -->
+            <button onclick="startGame()" class="btn-soft bg-gradient-to-r from-teal-400 via-emerald-400 to-green-400 text-white font-bold text-lg px-8 py-3 shadow-lg hover:shadow-emerald-200/50 flex items-center justify-center gap-2 mx-auto">
+                <i class="fa-solid fa-play text-xl"></i>
+                <span>Bắt Đầu Khám Phá</span>
+            </button>
+
+            <!-- Setup Gas URL Info button -->
+            <div class="mt-4 pt-3 border-t border-gray-200/60 flex justify-center items-center gap-2">
+                <button onclick="openConfigModal()" class="text-xs font-semibold text-gray-500 hover:text-emerald-600 transition flex items-center gap-1.5 bg-white/60 px-3 py-1 rounded-full border border-gray-200">
+                    <i class="fa-solid fa-gear text-emerald-500"></i>
+                    <span>Cấu hình Google Sheets Thầy Cô</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- ================= MÀN HÌNH 2: PLAY SCREEN ================= -->
+        <div id="playScreen" class="glass-card p-3 md:p-5 hidden">
+            <!-- Top Bar: Progress & Player Info -->
+            <div class="flex items-center justify-between gap-2 mb-2">
+                <div class="flex items-center gap-1.5 bg-white/80 px-3 py-1 rounded-full shadow-sm border border-pastelPink text-xs md:text-sm">
+                    <span>🧑‍🚀</span>
+                    <span id="displayPlayerName" class="font-bold text-gray-700 truncate max-w-[120px]">Nhà thám hiểm</span>
+                </div>
+
+                <!-- Pencil Progress Bar Container -->
+                <div class="flex-grow max-w-md bg-white/80 p-1.5 rounded-full shadow-inner border border-pastelBlue flex items-center gap-2">
+                    <div class="text-xs font-bold text-emerald-700 px-1 min-w-[45px] text-center">
+                        <span id="currentQuestionNum">1</span>/20
+                    </div>
+                    <div class="flex-grow bg-gray-100 h-3 rounded-full relative overflow-hidden">
+                        <div id="progressBarFill" class="h-full bg-gradient-to-r from-emerald-300 to-teal-400 rounded-full transition-all duration-300" style="width: 5%;"></div>
+                    </div>
+                    <span id="pencilIcon" class="text-base transform -rotate-45 transition-all duration-300">✏️</span>
+                </div>
+
+                <!-- Score Counter -->
+                <div class="bg-amber-100 text-amber-800 font-bold px-2.5 py-1 rounded-full text-xs md:text-sm border border-amber-300 flex items-center gap-1">
+                    <span>⭐</span> <span id="currentScore">0</span>
+                </div>
+            </div>
+
+            <!-- Classroom Scene Canvas Container -->
+            <div id="sceneContainer" class="w-full bg-slate-50 rounded-2xl border-2 border-white shadow-inner p-3 mb-2 relative min-h-[200px] md:min-h-[220px] flex flex-col justify-between overflow-hidden">
+                <!-- Classroom Background Decoration -->
+                <div class="absolute inset-0 bg-gradient-to-b from-sky-100/70 via-sky-50/50 to-amber-100/60 z-0 pointer-events-none"></div>
+                <div class="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-r from-amber-200/50 to-amber-300/40 border-t-2 border-amber-200 z-0"></div>
+
+                <!-- Dialogue Speech Box (Structured A and B dialogue) -->
+                <div id="dialogueContainer" class="relative z-10 mb-1 max-w-lg mx-auto w-full">
+                    <div class="bg-white/95 rounded-xl p-2.5 shadow-md border-2 border-sky-200 animate-pop font-semibold text-center">
+                        <div id="dialogueTextKrA" class="kr-text text-base md:text-xl text-slate-800 font-bold tracking-wide">A: 이게 뭐예요?</div>
+                        <div id="dialogueTextViA" class="text-xs text-slate-500 font-medium mb-1">(Cái này là cái gì vậy?)</div>
+                        <div id="dialogueTextKrB" class="kr-text text-base md:text-xl text-emerald-600 font-extrabold tracking-wide">B: ____________________</div>
+                    </div>
+                </div>
+
+                <!-- Characters & Object Scene Area -->
+                <div id="characterScene" class="relative z-10 h-36 md:h-40 w-full flex items-end justify-between px-3 md:px-8">
+                    <!-- Dynamic Content populated via JavaScript -->
+                </div>
+
+                <!-- Vocabulary Hint Pill at Bottom Left -->
+                <div class="relative z-10 self-start mt-1">
+                    <div class="bg-amber-100/95 border border-amber-300 text-amber-900 text-xs font-semibold px-2.5 py-0.5 rounded-full flex items-center gap-1 shadow-sm">
+                        <span>💡 Gợi ý:</span>
+                        <span id="vocabHintText" class="kr-text font-bold text-amber-900">책: quyển sách</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question Prompt Title -->
+            <div class="text-center mb-2">
+                <h2 class="text-xs md:text-sm font-bold text-gray-700 flex items-center justify-center gap-1.5">
+                    <i class="fa-solid fa-circle-question text-emerald-500 text-base"></i>
+                    <span>Chọn câu trả lời đúng nhất cho B (3 lựa chọn):</span>
+                </h2>
+            </div>
+
+            <!-- 3 Multiple Choice Options Grid -->
+            <div id="optionsGrid" class="grid grid-cols-1 gap-2 mb-2">
+                <!-- Option buttons generated dynamically -->
+            </div>
+
+            <!-- Answer Feedback Toast/Modal -->
+            <div id="feedbackBox" class="hidden p-2.5 rounded-xl text-center font-bold text-sm transition-all animate-pop flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                    <span id="feedbackIcon" class="text-xl"></span>
+                    <span id="feedbackMessage" class="text-slate-800 text-xs md:text-sm"></span>
+                </div>
+                <button id="nextBtn" onclick="nextQuestion()" class="btn-soft bg-emerald-500 hover:bg-emerald-600 text-white font-bold px-4 py-1.5 text-xs md:text-sm rounded-full flex items-center gap-1.5 shadow">
+                    <span>Tiếp theo</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- ================= MÀN HÌNH 3: RESULT SCREEN ================= -->
+        <div id="resultScreen" class="glass-card p-6 md:p-8 text-center animate-pop max-w-xl mx-auto hidden">
+            <div class="w-24 h-24 mx-auto bg-gradient-to-tr from-yellow-300 to-amber-400 rounded-full p-2 shadow-xl mb-3 flex items-center justify-center animate-bounce">
+                <div class="w-full h-full bg-white rounded-full flex items-center justify-center">
+                    <span class="text-5xl">🏆</span>
+                </div>
+            </div>
+
+            <h2 class="text-2xl font-bold text-gray-800 mb-1">Hoàn Thành Thám Hiểm!</h2>
+            <p class="text-gray-600 text-xs mb-3">Chúc mừng <span id="resultPlayerName" class="font-bold text-emerald-600">bạn</span> đã hoàn thành bài ôn tập!</p>
+
+            <div class="bg-gradient-to-r from-emerald-50 via-teal-50 to-sky-50 p-4 rounded-2xl border-2 border-emerald-200 mb-3 max-w-sm mx-auto shadow-sm">
+                <div class="text-xs font-semibold text-gray-500 uppercase tracking-wide">Điểm Số Của Bạn</div>
+                <div class="text-4xl font-black text-emerald-600 my-1 flex items-center justify-center gap-2">
+                    <span id="finalScore">18</span> <span class="text-xl text-gray-400 font-bold">/ 20</span>
+                </div>
+                <div id="praiseTextKr" class="kr-text text-xl text-pink-500 font-extrabold stroke-text">대단해요!</div>
+                <div id="praiseTextVi" class="text-gray-700 font-bold text-xs mt-0.5">Cực kỳ xuất sắc! Cảm ơn nhà thám hiểm tài ba!</div>
+            </div>
+
+            <!-- Tự động báo trạng thái gửi kết quả về Google Sheets -->
+            <div id="submissionStatus" class="mb-4 text-xs font-semibold text-emerald-600"></div>
+
+            <!-- Danh sách xem lại các câu làm sai -->
+            <div id="wrongAnswersList" class="mb-5 max-w-md mx-auto"></div>
+
+            <!-- Chỉ còn nút Chơi Lại -->
+            <div class="flex justify-center max-w-sm mx-auto">
+                <button onclick="restartGame()" class="btn-soft bg-gradient-to-r from-emerald-400 to-teal-500 text-white font-bold px-8 py-3 text-base flex items-center justify-center gap-2 shadow-lg hover:shadow-emerald-200/50">
+                    <i class="fa-solid fa-rotate-right"></i>
+                    <span>Chơi Lại</span>
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Modal Cấu Hình Google Apps Script URL -->
+    <div id="configModal" class="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-3xl p-6 md:p-8 max-w-lg w-full shadow-2xl animate-pop relative border-2 border-emerald-200">
+            <button onclick="closeConfigModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-xl font-bold w-8 h-8 rounded-full flex items-center justify-center hover:bg-gray-100">✕</button>
+
+            <h3 class="text-xl font-bold text-gray-800 mb-2 flex items-center gap-2">
+                <i class="fa-solid fa-sheet-plastic text-emerald-500"></i>
+                <span>Cấu Hình Google Sheets Thầy Cô</span>
+            </h3>
+            <p class="text-xs text-gray-600 mb-4">Dán đường dẫn Web App Google Apps Script của thầy/cô vào đây để tự động nhận kết quả của học sinh.</p>
+
+            <div class="space-y-3 mb-6">
+                <label class="block text-xs font-bold text-gray-700 uppercase">Google Apps Script Web App URL:</label>
+                <input type="text" id="scriptUrlInput" placeholder="https://script.google.com/macros/s/.../exec" 
+                    class="w-full px-4 py-3 text-sm rounded-2xl border-2 border-gray-200 focus:border-emerald-400 focus:outline-none font-mono text-gray-700">
+            </div>
+
+            <div class="flex justify-end gap-3">
+                <button onclick="closeConfigModal()" class="px-5 py-2.5 text-sm font-semibold text-gray-600 bg-gray-100 rounded-2xl hover:bg-gray-200">Hủy</button>
+                <button onclick="saveConfigUrl()" class="px-5 py-2.5 text-sm font-semibold text-white bg-emerald-500 rounded-2xl hover:bg-emerald-600 shadow-md">Lưu Cấu Hình</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT GAME LOGIC -->
+    <script>
+        // 1. DỮ LIỆU TỪ VỰNG TIẾNG HÀN & QUY TẮC BATCHIM
+        const VOCAB_DATA = [
+            { id: 'book', kr: '책', vi: 'quyển sách', batchim: true },
+            { id: 'clock', kr: '시계', vi: 'đồng hồ', batchim: false },
+            { id: 'bag', kr: '가방', vi: 'cặp sách', batchim: true },
+            { id: 'notebook', kr: '공책', vi: 'vở bài tập', batchim: true },
+            { id: 'eraser', kr: '지우개', vi: 'cục tẩy', batchim: false },
+            { id: 'pencil', kr: '연필', vi: 'bút chì', batchim: true },
+            { id: 'blackboard', kr: '칠판', vi: 'bảng đen', batchim: true },
+            { id: 'pencilcase', kr: '필통', vi: 'hộp bút', batchim: true },
+            { id: 'calendar', kr: '달력', vi: 'tờ lịch', batchim: true },
+            { id: 'pen', kr: '볼펜', vi: 'bút bi', batchim: true }
+        ];
+
+        let scriptUrl = localStorage.getItem('explorer_script_url') || "";
+
+        // Game State Variables
+        let playerName = "";
+        let questions = [];
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let startTime = null;
+        let isAnswered = false;
+
+        // SVG CHARACTERS matching user image (Girl: headband + star yellow shirt, Boy: dark hair + star blue shirt)
+        const SVG_ASSETS = {
+            // Bạn A (Girl from image)
+            personA: `
+                <svg width="85" height="115" viewBox="0 0 100 130" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Legs & Shoes -->
+                    <rect x="34" y="94" width="10" height="24" rx="4" fill="#4DD0E1"/>
+                    <rect x="54" y="94" width="10" height="24" rx="4" fill="#4DD0E1"/>
+                    <ellipse cx="39" cy="118" rx="8" ry="5" fill="#263238"/>
+                    <ellipse cx="59" cy="118" rx="8" ry="5" fill="#263238"/>
+                    <!-- Left Arm (down) -->
+                    <rect x="18" y="52" width="10" height="28" rx="5" fill="#FFF176"/>
+                    <circle cx="23" cy="80" r="5" fill="#FFCC80"/>
+                    <!-- Body/Shirt with Star -->
+                    <path d="M25 50 C25 45 73 45 73 50 L75 94 H23 L25 50 Z" fill="#FFF176"/>
+                    <!-- Star Emblem -->
+                    <polygon points="49,58 52,65 59,65 53,69 55,76 49,71 43,76 45,69 39,65 46,65" fill="#FFFDE7" stroke="#FBC02D" stroke-width="1"/>
+                    <!-- Right Arm (pointing right) -->
+                    <rect x="68" y="52" width="28" height="10" rx="5" fill="#FFF176"/>
+                    <circle cx="95" cy="57" r="5" fill="#FFCC80"/>
+                    <!-- Hair Back -->
+                    <path d="M20 28 C15 45 15 70 20 80 H28 V28 Z" fill="#3E2723"/>
+                    <path d="M78 28 C83 45 83 70 78 80 H70 V28 Z" fill="#3E2723"/>
+                    <!-- Head Base -->
+                    <circle cx="49" cy="32" r="22" fill="#FFCC80"/>
+                    <!-- Eyes -->
+                    <circle cx="41" cy="30" r="4" fill="#212121"/>
+                    <circle cx="57" cy="30" r="4" fill="#212121"/>
+                    <circle cx="42.5" cy="28.5" r="1.5" fill="white"/>
+                    <circle cx="58.5" cy="28.5" r="1.5" fill="white"/>
+                    <!-- Cheeks -->
+                    <ellipse cx="36" cy="35" rx="4.5" ry="3" fill="#FF8A80" opacity="0.8"/>
+                    <ellipse cx="62" cy="35" rx="4.5" ry="3" fill="#FF8A80" opacity="0.8"/>
+                    <!-- Mouth -->
+                    <path d="M43 36 Q49 42 55 36" stroke="#D84315" stroke-width="2" stroke-linecap="round" fill="none"/>
+                    <!-- Hair Bangs & Top -->
+                    <path d="M24 25 C24 10 74 10 74 25 C74 14 24 14 24 25 Z" fill="#3E2723"/>
+                    <path d="M26 24 C32 30 40 30 49 24 C58 30 66 30 72 24 C74 15 24 15 26 24 Z" fill="#3E2723"/>
+                    <!-- Headband (Yellow) -->
+                    <path d="M27 19 C35 12 63 12 71 19" stroke="#FBC02D" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+                </svg>
+            `,
+
+            // Bạn B (Boy from image)
+            personB: `
+                <svg width="85" height="115" viewBox="0 0 100 130" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Legs & Shoes -->
+                    <rect x="34" y="94" width="10" height="24" rx="4" fill="#1976D2"/>
+                    <rect x="54" y="94" width="10" height="24" rx="4" fill="#1976D2"/>
+                    <ellipse cx="39" cy="118" rx="8" ry="5" fill="#212121"/>
+                    <ellipse cx="59" cy="118" rx="8" ry="5" fill="#212121"/>
+                    <!-- Left Arm (down) -->
+                    <rect x="18" y="52" width="10" height="28" rx="5" fill="#42A5F5"/>
+                    <circle cx="23" cy="80" r="5" fill="#FFCC80"/>
+                    <!-- Body/Shirt with Star -->
+                    <path d="M25 50 C25 45 73 45 73 50 L75 94 H23 L25 50 Z" fill="#42A5F5"/>
+                    <!-- Star Emblem -->
+                    <polygon points="49,58 52,65 59,65 53,69 55,76 49,71 43,76 45,69 39,65 46,65" fill="#FFFDE7" stroke="#FBC02D" stroke-width="1"/>
+                    <!-- Right Arm (pointing right) -->
+                    <rect x="68" y="52" width="28" height="10" rx="5" fill="#42A5F5"/>
+                    <circle cx="95" cy="57" r="5" fill="#FFCC80"/>
+                    <!-- Head Base -->
+                    <circle cx="49" cy="32" r="22" fill="#FFCC80"/>
+                    <!-- Eyes -->
+                    <circle cx="41" cy="30" r="4" fill="#212121"/>
+                    <circle cx="57" cy="30" r="4" fill="#212121"/>
+                    <circle cx="42.5" cy="28.5" r="1.5" fill="white"/>
+                    <circle cx="58.5" cy="28.5" r="1.5" fill="white"/>
+                    <!-- Cheeks -->
+                    <ellipse cx="36" cy="35" rx="4.5" ry="3" fill="#FF8A80" opacity="0.8"/>
+                    <ellipse cx="62" cy="35" rx="4.5" ry="3" fill="#FF8A80" opacity="0.8"/>
+                    <!-- Mouth -->
+                    <path d="M43 36 Q49 42 55 36" stroke="#D84315" stroke-width="2" stroke-linecap="round" fill="none"/>
+                    <!-- Boy Hair (Dark Brown Cap with Bangs & Top Tuft) -->
+                    <path d="M24 25 C22 10 76 10 74 25 C76 17 68 12 49 12 C30 12 22 17 24 25 Z" fill="#3E2723"/>
+                    <path d="M25 24 C33 29 42 27 49 30 C56 27 65 29 73 24 C73 15 25 15 25 24 Z" fill="#3E2723"/>
+                    <!-- Hair Spiky Tuft on Top -->
+                    <path d="M46 12 C44 7 48 5 50 8 C52 5 56 7 53 12 Z" fill="#3E2723"/>
+                </svg>
+            `,
+
+            // Item SVGs
+            book: `<svg width="55" height="55" viewBox="0 0 80 80" fill="none"><rect x="15" y="15" width="50" height="55" rx="6" fill="#42A5F5"/><rect x="12" y="18" width="50" height="52" rx="5" fill="#90CAF9"/><path d="M22 18H62V70H22C16.5 70 12 65.5 12 60V28C12 22.5 16.5 18 22 18Z" fill="#2196F3"/><rect x="26" y="28" width="28" height="6" rx="3" fill="white"/><rect x="26" y="40" width="20" height="4" rx="2" fill="#E3F2FD"/><path d="M12 60C12 65.5 16.5 70 22 70H62V64H22C19.8 64 18 62.2 18 60Z" fill="#0D47A1"/></svg>`,
+            clock: `<svg width="55" height="55" viewBox="0 0 80 80" fill="none"><circle cx="40" cy="40" r="32" fill="#FF8A80" stroke="#FF5252" stroke-width="4"/><circle cx="40" cy="40" r="25" fill="white"/><circle cx="40" cy="40" r="3" fill="#212121"/><line x1="40" y1="40" x2="40" y2="24" stroke="#212121" stroke-width="3" stroke-linecap="round"/><line x1="40" y1="40" x2="52" y2="40" stroke="#FF5252" stroke-width="3" stroke-linecap="round"/><circle cx="40" cy="14" r="1.5" fill="#212121"/><circle cx="66" cy="40" r="1.5" fill="#212121"/><circle cx="40" cy="66" r="1.5" fill="#212121"/><circle cx="14" cy="40" r="1.5" fill="#212121"/></svg>`,
+            bag: `<svg width="55" height="55" viewBox="0 0 80 80" fill="none"><path d="M30 25C30 18 50 18 50 25" stroke="#EC407A" stroke-width="5" stroke-linecap="round"/><rect x="18" y="25" width="44" height="48" rx="12" fill="#F48FB1"/><rect x="24" y="42" width="32" height="24" rx="6" fill="#F06292"/><circle cx="40" cy="34" r="4" fill="#FFF176"/><path d="M30 52H50" stroke="#FF80AB" stroke-width="3" stroke-linecap="round"/></svg>`,
+            notebook: `<svg width="55" height="55" viewBox="0 0 80 80" fill="none"><rect x="20" y="12" width="48" height="58" rx="6" fill="#A5D6A7"/><rect x="25" y="12" width="43" height="58" rx="4" fill="#C8E6C9"/><circle cx="20" cy="20" r="3" fill="#558B2F"/><circle cx="20" cy="32" r="3" fill="#558B2F"/><circle cx="20" cy="44" r="3" fill="#558B2F"/><circle cx="20" cy="56" r="3" fill="#558B2F"/><line x1="32" y1="26" x2="58" y2="26" stroke="#81C784" stroke-width="3" stroke-linecap="round"/><line x1="32" y1="36" x2="58" y2="36" stroke="#81C784" stroke-width="3" stroke-linecap="round"/><line x1="32" y1="46" x2="50" y2="46" stroke="#81C784" stroke-width="3" stroke-linecap="round"/></svg>`,
+            eraser: `<svg width="55" height="55" viewBox="0 0 80 80" fill="none"><g transform="rotate(-15 40 40)"><rect x="15" y="28" width="50" height="24" rx="5" fill="#E0E0E0"/><rect x="35" y="28" width="30" height="24" rx="4" fill="#CE93D8"/><rect x="15" y="28" width="25" height="24" rx="4" fill="#B39DDB"/><text x="18" y="44" font-family="Arial" font-size="9" font-weight="bold" fill="white">ERASER</text></g></svg>`,
+            pencil: `<svg width="55" height="55" viewBox="0 0 80 80" fill="none"><g transform="rotate(45 40 40)"><rect x="34" y="10" width="12" height="12" rx="2" fill="#F48FB1"/><rect x="34" y="22" width="12" height="6" fill="#B0BEC5"/><rect x="34" y="28" width="12" height="36" fill="#FFD54F"/><polygon points="34,64 46,64 40,76" fill="#FFE082"/><polygon points="38,72 42,72 40,76" fill="#37474F"/></g></svg>`,
+            blackboard: `<svg width="65" height="55" viewBox="0 0 90 70" fill="none"><rect x="5" y="8" width="80" height="48" rx="4" fill="#8D6E63"/><rect x="9" y="12" width="72" height="40" rx="2" fill="#2E7D32"/><line x1="20" y1="56" x2="12" y2="68" stroke="#6D4C41" stroke-width="4" stroke-linecap="round"/><line x1="70" y1="56" x2="78" y2="68" stroke="#6D4C41" stroke-width="4" stroke-linecap="round"/><path d="M18 24Q24 18 30 24T42 24" stroke="white" stroke-width="2" fill="none" opacity="0.8"/><circle cx="65" cy="36" r="3" fill="#FFF9C4" opacity="0.9"/></svg>`,
+            pencilcase: `<svg width="55" height="55" viewBox="0 0 80 80" fill="none"><rect x="12" y="28" width="56" height="26" rx="10" fill="#81D4FA"/><rect x="16" y="32" width="48" height="18" rx="7" fill="#4FC3F7"/><circle cx="62" cy="41" r="3" fill="#FFF176"/><line x1="16" y1="41" x2="58" y2="41" stroke="#0288D1" stroke-width="2" stroke-dasharray="3 2"/></svg>`,
+            calendar: `<svg width="55" height="55" viewBox="0 0 80 80" fill="none"><rect x="16" y="20" width="48" height="48" rx="6" fill="#FFFFFF" stroke="#E0E0E0" stroke-width="2"/><rect x="16" y="20" width="48" height="16" rx="4" fill="#FF7043"/><circle cx="28" cy="16" r="3" fill="#78909C"/><circle cx="52" cy="16" r="3" fill="#78909C"/><text x="40" y="52" font-family="'Noto Sans KR', sans-serif" font-size="20" font-weight="bold" fill="#37474F" text-anchor="middle">12</text></svg>`,
+            pen: `<svg width="55" height="55" viewBox="0 0 80 80" fill="none"><g transform="rotate(-30 40 40)"><rect x="36" y="10" width="8" height="8" rx="1" fill="#78909C"/><rect x="36" y="18" width="8" height="44" fill="#1E88E5"/><polygon points="36,62 44,62 40,72" fill="#B0BEC5"/><line x1="42" y1="20" x2="42" y2="35" stroke="#90CAF9" stroke-width="2"/></g></svg>`
+        };
+
+        // Grammar Helpers
+        function getCopula(vocab) {
+            return vocab.batchim ? "이에요" : "예요";
+        }
+
+        function getSubjectMarker(vocab) {
+            return vocab.batchim ? "이 아니에요" : "가 아니에요";
+        }
+
+        function generateQuestions() {
+            const list = [];
+            const demonstratives = ["이게", "그게", "저게"];
+            const questionTypes = ["WH", "YES_NO_AFFIRMATIVE", "YES_NO_NEGATIVE"];
+
+            for (let i = 0; i < 20; i++) {
+                const targetVocab = VOCAB_DATA[Math.floor(Math.random() * VOCAB_DATA.length)];
+                const dem = demonstratives[Math.floor(Math.random() * demonstratives.length)];
+                const qType = questionTypes[Math.floor(Math.random() * questionTypes.length)];
+
+                let qTextKrA = "";
+                let qTextViA = "";
+                let correctAnswer = "";
+                let options = [];
+                let wrongVocab = null;
+
+                const targetCopula = getCopula(targetVocab);
+
+                let respDem = "그게";
+                if (dem === "그게") respDem = "이게";
+                if (dem === "저게") respDem = "저게";
+
+                if (qType === "WH") {
+                    if (dem === "이게") {
+                        qTextKrA = "A: 이게 뭐예요?";
+                        qTextViA = "(Cái này là cái gì vậy?)";
+                    } else if (dem === "그게") {
+                        qTextKrA = "A: 그게 뭐예요?";
+                        qTextViA = "(Cái đó là cái gì vậy?)";
+                    } else {
+                        qTextKrA = "A: 저게 뭐예요?";
+                        qTextViA = "(Cái kia là cái gì vậy?)";
+                    }
+                    correctAnswer = `${respDem} ${targetVocab.kr}${targetCopula}.`;
+
+                    const wrongDem = respDem === "이게" ? "그게" : "이게";
+                    const otherVocabs = VOCAB_DATA.filter(v => v.id !== targetVocab.id);
+                    const otherVocab = otherVocabs[Math.floor(Math.random() * otherVocabs.length)];
+
+                    // Cả 3 đáp án đều đúng chuẩn ngữ pháp
+                    options = [
+                        correctAnswer,
+                        `${wrongDem} ${targetVocab.kr}${targetCopula}.`, // Sai đại từ chỉ định
+                        `${respDem} ${otherVocab.kr}${getCopula(otherVocab)}.` // Sai từ vựng
+                    ];
+
+                } else if (qType === "YES_NO_AFFIRMATIVE") {
+                    if (dem === "이게") {
+                        qTextKrA = `A: 이게 ${targetVocab.kr}${targetCopula}?`;
+                        qTextViA = `(Cái này là ${targetVocab.vi} phải không?)`;
+                    } else if (dem === "그게") {
+                        qTextKrA = `A: 그게 ${targetVocab.kr}${targetCopula}?`;
+                        qTextViA = `(Cái đó là ${targetVocab.vi} phải không?)`;
+                    } else {
+                        qTextKrA = `A: 저게 ${targetVocab.kr}${targetCopula}?`;
+                        qTextViA = `(Cái kia là ${targetVocab.vi} phải không?)`;
+                    }
+                    correctAnswer = `네, ${respDem} ${targetVocab.kr}${targetCopula}.`;
+
+                    const otherVocabs = VOCAB_DATA.filter(v => v.id !== targetVocab.id);
+                    const otherVocab = otherVocabs[Math.floor(Math.random() * otherVocabs.length)];
+
+                    // Cả 3 đáp án đều đúng chuẩn ngữ pháp
+                    options = [
+                        correctAnswer,
+                        `아니요, ${respDem} ${targetVocab.kr}${targetCopula}.`, // Sai logic Ngữ cảnh (No + đúng đồ vật)
+                        `네, ${respDem} ${otherVocab.kr}${getCopula(otherVocab)}.` // Sai đồ vật
+                    ];
+
+                } else {
+                    // YES_NO_NEGATIVE (Full denial + correction!)
+                    const otherVocabs = VOCAB_DATA.filter(v => v.id !== targetVocab.id);
+                    wrongVocab = otherVocabs[Math.floor(Math.random() * otherVocabs.length)];
+                    const wrongCopula = getCopula(wrongVocab);
+
+                    if (dem === "이게") {
+                        qTextKrA = `A: 이게 ${wrongVocab.kr}${wrongCopula}?`;
+                        qTextViA = `(Cái này có phải là ${wrongVocab.vi} không?)`;
+                    } else if (dem === "그게") {
+                        qTextKrA = `A: 그게 ${wrongVocab.kr}${wrongCopula}?`;
+                        qTextViA = `(Cái đó có phải là ${wrongVocab.vi} không?)`;
+                    } else {
+                        qTextKrA = `A: 저게 ${wrongVocab.kr}${wrongCopula}?`;
+                        qTextViA = `(Cái kia có phải là ${wrongVocab.vi} không?)`;
+                    }
+
+                    // Full negative answer: 아니요, 그게 [wrongItem]이/가 아니에요. [targetItem]이에요/예요.
+                    correctAnswer = `아니요, ${respDem} ${wrongVocab.kr}${getSubjectMarker(wrongVocab)}. ${targetVocab.kr}${targetCopula}.`;
+
+                    // Cả 3 đáp án đều đúng chuẩn ngữ pháp
+                    options = [
+                        correctAnswer,
+                        `네, ${respDem} ${wrongVocab.kr}${wrongCopula}.`, // Sai thông tin thực tế
+                        `아니요, ${respDem} ${targetVocab.kr}${getSubjectMarker(targetVocab)}. ${wrongVocab.kr}${wrongCopula}.` // Tráo đổi vị trí 2 từ vựng
+                    ];
+                }
+
+                options = shuffleArray(options);
+
+                list.push({
+                    id: i + 1,
+                    demonstrative: dem,
+                    targetVocab: targetVocab,
+                    wrongVocab: wrongVocab,
+                    qType: qType,
+                    qTextKrA: qTextKrA,
+                    qTextViA: qTextViA,
+                    correctAnswer: correctAnswer,
+                    options: options
+                });
+            }
+
+            return list;
+        }
+
+        function shuffleArray(array) {
+            const arr = [...array];
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr;
+        }
+
+        function startGame() {
+            const nameInput = document.getElementById("playerNameInput").value.trim();
+            const nameError = document.getElementById("nameError");
+
+            if (!nameInput) {
+                nameError.classList.remove("hidden");
+                playAudioEffect('error');
+                return;
+            }
+
+            nameError.classList.add("hidden");
+            playerName = nameInput;
+            document.getElementById("displayPlayerName").innerText = playerName;
+
+            score = 0;
+            currentQuestionIndex = 0;
+            questions = generateQuestions();
+            startTime = new Date();
+
+            document.getElementById("currentScore").innerText = score;
+            document.getElementById("startScreen").classList.add("hidden");
+            document.getElementById("playScreen").classList.remove("hidden");
+
+            renderCurrentQuestion();
+            playAudioEffect('start');
+        }
+
+        function renderCurrentQuestion() {
+            isAnswered = false;
+            const q = questions[currentQuestionIndex];
+
+            // Progress Bar Update
+            const progressPercent = ((currentQuestionIndex + 1) / 20) * 100;
+            document.getElementById("currentQuestionNum").innerText = currentQuestionIndex + 1;
+            document.getElementById("progressBarFill").style.width = `${progressPercent}%`;
+            document.getElementById("pencilIcon").style.transform = `translateX(${progressPercent * 2.2}px) rotate(-45deg)`;
+
+            // Structured A & B Dialogue Display
+            document.getElementById("dialogueTextKrA").innerText = q.qTextKrA;
+            document.getElementById("dialogueTextViA").innerText = q.qTextViA;
+            document.getElementById("dialogueTextKrB").innerText = "B: ____________________";
+
+            // Vocab Hint Text
+            document.getElementById("vocabHintText").innerText = `${q.targetVocab.kr}: ${q.targetVocab.vi}`;
+
+            // Render Visual Scene
+            const sceneEl = document.getElementById("characterScene");
+            sceneEl.innerHTML = renderSceneContent(q.demonstrative, q.targetVocab.id);
+
+            // Render 3 Options
+            const optionsGrid = document.getElementById("optionsGrid");
+            optionsGrid.innerHTML = "";
+
+            q.options.forEach((optText) => {
+                const btn = document.createElement("button");
+                btn.className = "option-btn p-2.5 md:p-3 font-bold text-left kr-text flex items-center justify-between text-sm md:text-base leading-snug";
+                btn.innerHTML = `
+                    <span class="mr-2">${optText}</span>
+                    <i class="fa-regular fa-circle text-gray-300 text-lg flex-shrink-0"></i>
+                `;
+                btn.onclick = () => selectOption(btn, optText, q.correctAnswer);
+                optionsGrid.appendChild(btn);
+            });
+
+            document.getElementById("feedbackBox").className = "hidden p-2.5 rounded-xl text-center font-bold text-sm transition-all animate-pop flex items-center justify-between";
+        }
+
+        function renderSceneContent(demonstrative, vocabId) {
+            const itemSvg = SVG_ASSETS[vocabId] || SVG_ASSETS.book;
+
+            if (demonstrative === "저게") {
+                return `
+                    <div class="flex items-end gap-1 relative z-10">
+                        <div class="flex flex-col items-center">
+                            <span class="bg-emerald-500 text-white font-bold text-[10px] px-2 py-0.5 rounded-full shadow mb-0.5">Bạn A</span>
+                            <div class="transform translate-y-1">${SVG_ASSETS.personA}</div>
+                        </div>
+                        <div class="flex flex-col items-center -ml-3">
+                            <span class="bg-sky-500 text-white font-bold text-[10px] px-2 py-0.5 rounded-full shadow mb-0.5">Bạn B</span>
+                            <div class="transform translate-y-1">${SVG_ASSETS.personB}</div>
+                        </div>
+                    </div>
+
+                    <div class="flex-grow flex flex-col justify-center items-center px-2 py-2 relative z-0 my-auto">
+                        <div class="w-full flex items-center arrow-animated my-0.5">
+                            <div class="h-2 bg-red-400 w-full relative flex items-center justify-between rounded-full shadow-sm">
+                                <div class="w-0 h-0 border-t-[5px] border-t-transparent border-b-[5px] border-b-transparent border-r-[10px] border-r-red-400 -ml-1.5"></div>
+                                <div class="w-0 h-0 border-t-[5px] border-t-transparent border-b-[5px] border-b-transparent border-l-[10px] border-l-red-400 -mr-1.5"></div>
+                            </div>
+                        </div>
+                        <div class="w-full flex items-center arrow-animated my-0.5">
+                            <div class="h-2 bg-slate-700 w-full relative flex items-center justify-between rounded-full shadow-sm">
+                                <div class="w-0 h-0 border-t-[5px] border-t-transparent border-b-[5px] border-b-transparent border-r-[10px] border-r-slate-700 -ml-1.5"></div>
+                                <div class="w-0 h-0 border-t-[5px] border-t-transparent border-b-[5px] border-b-transparent border-l-[10px] border-l-slate-700 -mr-1.5"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="relative z-10 flex flex-col items-center">
+                        <div class="p-1.5 bg-white/90 rounded-xl shadow-md border-2 border-amber-300 animate-pop">
+                            ${itemSvg}
+                        </div>
+                        <div class="w-16 h-3 bg-amber-400/80 rounded-t-lg shadow-sm mt-0.5"></div>
+                    </div>
+                `;
+            } else if (demonstrative === "이게") {
+                return `
+                    <div class="flex items-end gap-2 relative z-10">
+                        <div class="flex flex-col items-center">
+                            <span class="bg-emerald-500 text-white font-bold text-[10px] px-2 py-0.5 rounded-full shadow mb-0.5">Bạn A</span>
+                            <div>${SVG_ASSETS.personA}</div>
+                        </div>
+                        <div class="flex flex-col items-center mb-1 animate-pop">
+                            <div class="p-1.5 bg-white/90 rounded-xl shadow-md border-2 border-emerald-300">
+                                ${itemSvg}
+                            </div>
+                            <div class="w-14 h-2.5 bg-amber-300/80 rounded-t-lg shadow-sm mt-0.5"></div>
+                        </div>
+                    </div>
+
+                    <div class="flex-grow"></div>
+
+                    <div class="flex flex-col items-center relative z-10">
+                        <span class="bg-sky-500 text-white font-bold text-[10px] px-2 py-0.5 rounded-full shadow mb-0.5">Bạn B</span>
+                        <div>${SVG_ASSETS.personB}</div>
+                    </div>
+                `;
+            } else {
+                return `
+                    <div class="flex flex-col items-center relative z-10">
+                        <span class="bg-emerald-500 text-white font-bold text-[10px] px-2 py-0.5 rounded-full shadow mb-0.5">Bạn A</span>
+                        <div>${SVG_ASSETS.personA}</div>
+                    </div>
+
+                    <div class="flex-grow"></div>
+
+                    <div class="flex items-end gap-2 relative z-10">
+                        <div class="flex flex-col items-center mb-1 animate-pop">
+                            <div class="p-1.5 bg-white/90 rounded-xl shadow-md border-2 border-sky-300">
+                                ${itemSvg}
+                            </div>
+                            <div class="w-14 h-2.5 bg-amber-300/80 rounded-t-lg shadow-sm mt-0.5"></div>
+                        </div>
+                        <div class="flex flex-col items-center">
+                            <span class="bg-sky-500 text-white font-bold text-[10px] px-2 py-0.5 rounded-full shadow mb-0.5">Bạn B</span>
+                            <div>${SVG_ASSETS.personB}</div>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        function getPositionHint(demonstrative) {
+            if (demonstrative === "이게") {
+                return "Đồ vật ở gần คุณ A ➔ A hỏi '이게', B trả lời phải dùng '그게'";
+            } else if (demonstrative === "그게") {
+                return "Đồ vật ở gần คุณ B ➔ A hỏi '그게', B trả lời phải dùng '이게'";
+            } else {
+                return "Đồ vật ở xa cả Bạn A và Bạn B ➔ B trả lời phải dùng '저게'";
+            }
+        }
+
+        function selectOption(selectedBtn, selectedText, correctAnswer) {
+            if (isAnswered) return;
+            isAnswered = true;
+
+            const q = questions[currentQuestionIndex];
+            q.userAnswer = selectedText;
+            q.isCorrect = (selectedText === correctAnswer);
+
+            const buttons = document.querySelectorAll(".option-btn");
+            const feedbackBox = document.getElementById("feedbackBox");
+            const feedbackIcon = document.getElementById("feedbackIcon");
+            const feedbackMessage = document.getElementById("feedbackMessage");
+
+            document.getElementById("dialogueTextKrB").innerText = `B: ${selectedText}`;
+
+            if (q.isCorrect) {
+                score += 1;
+                document.getElementById("currentScore").innerText = score;
+                selectedBtn.classList.add("correct");
+                selectedBtn.querySelector("i").className = "fa-solid fa-circle-check text-emerald-600 text-lg flex-shrink-0";
+
+                feedbackBox.className = "p-2.5 rounded-xl font-bold text-sm transition-all animate-pop flex items-center justify-between bg-emerald-100 border-2 border-emerald-300 text-emerald-900";
+                feedbackIcon.innerText = "🎉";
+                feedbackMessage.innerText = "Chính xác! Cực kỳ giỏi!";
+                playAudioEffect('correct');
+            } else {
+                selectedBtn.classList.add("incorrect");
+                selectedBtn.querySelector("i").className = "fa-solid fa-circle-xmark text-red-500 text-lg flex-shrink-0";
+
+                buttons.forEach(btn => {
+                    if (btn.innerText.includes(correctAnswer)) {
+                        btn.classList.add("correct");
+                        btn.querySelector("i").className = "fa-solid fa-circle-check text-emerald-600 text-lg flex-shrink-0";
+                    }
+                });
+
+                feedbackBox.className = "p-2.5 rounded-xl font-bold text-sm transition-all animate-pop flex items-center justify-between bg-red-100 border-2 border-red-300 text-red-900";
+                feedbackIcon.innerText = "💡";
+                feedbackMessage.innerHTML = `Đáp án đúng: <span class="kr-text font-bold text-emerald-700 ml-1">${correctAnswer}</span>`;
+                playAudioEffect('wrong');
+            }
+
+            feedbackBox.classList.remove("hidden");
+        }
+
+        function nextQuestion() {
+            if (currentQuestionIndex < 19) {
+                currentQuestionIndex++;
+                renderCurrentQuestion();
+            } else {
+                showResultScreen();
+            }
+        }
+
+        function showResultScreen() {
+            document.getElementById("playScreen").classList.add("hidden");
+            document.getElementById("resultScreen").classList.remove("hidden");
+
+            document.getElementById("resultPlayerName").innerText = playerName;
+            document.getElementById("finalScore").innerText = score;
+
+            const praiseKr = document.getElementById("praiseTextKr");
+            const praiseVi = document.getElementById("praiseTextVi");
+
+            if (score >= 18) {
+                praiseKr.innerText = "대단해요! 완벽해요!";
+                praiseVi.innerText = "Xuất sắc tuyệt vời! Bạn đã làm chủ ngữ pháp tiếng Hàn!";
+            } else if (score >= 14) {
+                praiseKr.innerText = "잘했어요!";
+                praiseVi.innerText = "Làm tốt lắm! Kiến thức của bạn rất vững chắc!";
+            } else if (score >= 10) {
+                praiseKr.innerText = "좋아요! 힘내세요!";
+                praiseVi.innerText = "Khá tốt! Hãy ôn tập thêm chút nữa để đạt điểm tối đa nhé!";
+            } else {
+                praiseKr.innerText = "다시 도전해보세요!";
+                praiseVi.innerText = "Đừng nản lòng! Hãy chơi lại để thuộc lòng từ vựng nhé!";
+            }
+
+            // Tự động hiển thị các câu sai để các con ôn tập
+            renderWrongAnswers();
+
+            // Tự động gửi kết quả về Google Sheets
+            autoSubmitToSheet();
+
+            playAudioEffect('victory');
+        }
+
+        function renderWrongAnswers() {
+            const container = document.getElementById("wrongAnswersList");
+            const wrongQuestions = questions.filter(q => !q.isCorrect);
+
+            if (wrongQuestions.length === 0) {
+                container.innerHTML = `
+                    <div class="bg-emerald-50 border-2 border-emerald-200 text-emerald-800 p-3 rounded-2xl text-xs font-bold text-center my-2 shadow-sm animate-pop">
+                        🎉 Tuyệt vời! Con không làm sai câu nào cả!
+                    </div>
+                `;
+                return;
+            }
+
+            let html = `
+                <div class="text-left mb-2">
+                    <h3 class="text-xs font-bold text-red-500 uppercase tracking-wide flex items-center gap-1.5">
+                        <i class="fa-solid fa-circle-exclamation text-red-500"></i>
+                        <span>Các câu con cần xem lại (${wrongQuestions.length}/${questions.length}):</span>
+                    </h3>
+                </div>
+                <div class="space-y-3 max-h-72 overflow-y-auto pr-1 text-left">
+            `;
+
+            wrongQuestions.forEach((q) => {
+                html += `
+                    <div class="bg-white/95 p-3 rounded-2xl border-2 border-red-100 shadow-sm text-xs space-y-2">
+                        <div class="font-bold text-slate-800 flex justify-between items-center border-b border-gray-100 pb-1">
+                            <span>Câu ${q.id}: <span class="kr-text font-extrabold text-emerald-700">${q.qTextKrA}</span></span>
+                            <span class="text-[10px] text-gray-500 font-medium">${q.qTextViA}</span>
+                        </div>
+
+                        <!-- Tranh minh họa vị trí đồ vật trong lớp học -->
+                        <div class="w-full bg-slate-50 rounded-xl border border-slate-200 p-2 relative overflow-hidden h-28 md:h-32 flex items-end justify-between scale-95 origin-center my-0.5">
+                            <div class="absolute inset-0 bg-gradient-to-b from-sky-100/50 via-sky-50/30 to-amber-100/40 z-0 pointer-events-none"></div>
+                            <div class="absolute bottom-0 left-0 right-0 h-6 bg-amber-200/40 border-t border-amber-200 z-0"></div>
+                            ${renderSceneContent(q.demonstrative, q.targetVocab.id)}
+                        </div>
+
+                        <!-- Mẹo nhận biết vị trí -->
+                        <div class="text-[11px] font-bold text-sky-800 bg-sky-50 px-2.5 py-1 rounded-xl border border-sky-100 flex items-center gap-1.5">
+                            <span class="text-sky-500">💡</span>
+                            <span>${getPositionHint(q.demonstrative)}</span>
+                        </div>
+
+                        <div class="bg-red-50 text-red-700 p-2 rounded-xl flex items-start gap-1.5 font-medium">
+                            <span class="font-bold shrink-0">❌ Con đã chọn:</span>
+                            <span class="kr-text font-semibold">${q.userAnswer || "Bỏ qua"}</span>
+                        </div>
+                        <div class="bg-emerald-50 text-emerald-900 p-2 rounded-xl flex items-start gap-1.5 font-medium border border-emerald-200">
+                            <span class="font-bold shrink-0 text-emerald-700">✅ Đáp án đúng:</span>
+                            <span class="kr-text font-bold text-emerald-800">${q.correctAnswer}</span>
+                        </div>
+                    </div>
+                `;
+            });
+
+            html += `</div>`;
+            container.innerHTML = html;
+        }
+
+        async function autoSubmitToSheet() {
+            const statusEl = document.getElementById("submissionStatus");
+            statusEl.classList.remove("hidden");
+            statusEl.className = "mt-2 text-xs font-semibold text-gray-500 animate-pulse bg-white/70 py-1.5 px-3 rounded-full border border-gray-200 inline-block";
+            statusEl.innerHTML = `<i class="fa-solid fa-spinner fa-spin mr-1 text-emerald-500"></i> Đang tự động gửi kết quả cho thầy cô...`;
+
+            if (!scriptUrl) {
+                statusEl.className = "mt-2 text-xs font-semibold text-amber-700 bg-amber-50 py-1.5 px-3 rounded-2xl border border-amber-200 inline-block";
+                statusEl.innerHTML = `<i class="fa-solid fa-triangle-exclamation mr-1"></i> Chưa cấu hình Web App URL (Chưa lưu kết quả vào Sheets).`;
+                return;
+            }
+
+            const durationSec = Math.round((new Date() - startTime) / 1000);
+            const minutes = Math.floor(durationSec / 60);
+            const seconds = durationSec % 60;
+            const timeFormatted = `${minutes} phút ${seconds} giây`;
+
+            const payload = {
+                playerName: playerName,
+                score: score,
+                totalQuestions: 20,
+                completionTime: timeFormatted,
+                timestamp: new Date().toLocaleString('vi-VN')
+            };
+
+            const success = await sendDataToSheet(payload);
+
+            if (success) {
+                statusEl.className = "mt-2 text-xs font-semibold text-emerald-700 bg-emerald-50 py-1.5 px-3 rounded-2xl border border-emerald-200 animate-pop inline-block";
+                statusEl.innerHTML = `<i class="fa-solid fa-circle-check mr-1 text-emerald-600"></i> Đã tự động gửi kết quả thành công cho thầy cô!`;
+            } else {
+                statusEl.className = "mt-2 text-xs font-semibold text-red-600 bg-red-50 py-1.5 px-3 rounded-2xl border border-red-200 inline-block";
+                statusEl.innerHTML = `<i class="fa-solid fa-circle-xmark mr-1"></i> Không thể gửi dữ liệu tự động. Vui lòng kiểm tra lại URL!`;
+            }
+        }
+
+        function restartGame() {
+            document.getElementById("resultScreen").classList.add("hidden");
+            document.getElementById("submissionStatus").classList.add("hidden");
+            document.getElementById("startScreen").classList.remove("hidden");
+        }
+
+        // Send Data to Google Sheets
+        async function sendDataToSheet(data) {
+            if (!scriptUrl) {
+                return false;
+            }
+
+            try {
+                const response = await fetch(scriptUrl, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+                return true;
+            } catch (err) {
+                console.error("Lỗi gửi dữ liệu:", err);
+                return false;
+            }
+        }
+
+        function openConfigModal() {
+            document.getElementById("scriptUrlInput").value = scriptUrl;
+            document.getElementById("configModal").classList.remove("hidden");
+        }
+
+        function closeConfigModal() {
+            document.getElementById("configModal").classList.hidden = true;
+            document.getElementById("configModal").classList.add("hidden");
+        }
+
+        function saveConfigUrl() {
+            const urlVal = document.getElementById("scriptUrlInput").value.trim();
+            scriptUrl = urlVal;
+            localStorage.setItem('explorer_script_url', scriptUrl);
+            closeConfigModal();
+
+            const statusEl = document.getElementById("submissionStatus");
+            statusEl.classList.remove("hidden");
+            statusEl.className = "mt-4 text-sm font-semibold text-emerald-600";
+            statusEl.innerText = "Đã lưu URL thành công!";
+        }
+
+        // Web Audio Synth for Effects
+        function playAudioEffect(type) {
+            try {
+                const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+
+                if (type === 'correct') {
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(523.25, ctx.currentTime);
+                    osc.frequency.exponentialRampToValueAtTime(659.25, ctx.currentTime + 0.1);
+                    osc.frequency.exponentialRampToValueAtTime(783.99, ctx.currentTime + 0.2);
+                    gain.gain.setValueAtTime(0.3, ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.35);
+                    osc.start();
+                    osc.stop(ctx.currentTime + 0.35);
+                } else if (type === 'wrong') {
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(220, ctx.currentTime);
+                    osc.frequency.setValueAtTime(180, ctx.currentTime + 0.15);
+                    gain.gain.setValueAtTime(0.2, ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.3);
+                    osc.start();
+                    osc.stop(ctx.currentTime + 0.3);
+                } else if (type === 'start') {
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(440, ctx.currentTime);
+                    osc.frequency.exponentialRampToValueAtTime(880, ctx.currentTime + 0.2);
+                    gain.gain.setValueAtTime(0.25, ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.25);
+                    osc.start();
+                    osc.stop(ctx.currentTime + 0.25);
+                } else if (type === 'victory') {
+                    const now = ctx.currentTime;
+                    const notes = [523.25, 659.25, 783.99, 1046.50];
+                    notes.forEach((freq, idx) => {
+                        const o = ctx.createOscillator();
+                        const g = ctx.createGain();
+                        o.connect(g);
+                        g.connect(ctx.destination);
+                        o.frequency.setValueAtTime(freq, now + idx * 0.12);
+                        g.gain.setValueAtTime(0.2, now + idx * 0.12);
+                        g.gain.exponentialRampToValueAtTime(0.01, now + idx * 0.12 + 0.3);
+                        o.start(now + idx * 0.12);
+                        o.stop(now + idx * 0.12 + 0.3);
+                    });
+                }
+            } catch (e) {
+                // Silent fallback if audio context restricted
+            }
+        }
+    </script>
+</body>
+</html>
